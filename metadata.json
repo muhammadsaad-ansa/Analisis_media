@@ -1,0 +1,6 @@
+{
+  "name": "PulseTrack - Real-Time Social Media Link Analytics",
+  "description": "Platform analitik tautan media sosial real-time untuk memantau pengunjung, platform rujukan (Instagram, TikTok, X, WhatsApp), perangkat, dan lokasi dengan dashboard interaktif.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

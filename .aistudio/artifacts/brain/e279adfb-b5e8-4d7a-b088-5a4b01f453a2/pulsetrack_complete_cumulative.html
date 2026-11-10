@@ -1,0 +1,570 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PulseTrack - Real-Time Social Media Link & Commerce Analytics Platform</title>
+    <meta name="description" content="Platform analitik tautan media sosial real-time untuk memantau pengunjung, platform rujukan (Instagram, TikTok, X, WhatsApp), produk trending, komisi afiliasi, dan manajemen stok." />
+    <!-- Tailwind CSS v3 -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body class="bg-slate-950 text-slate-100 font-sans antialiased min-h-screen selection:bg-indigo-500 selection:text-white">
+    <!-- Top Navigation Bar -->
+    <header class="sticky top-0 z-50 bg-slate-900/90 backdrop-blur-md border-b border-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center shadow-lg shadow-indigo-500/30">
+                    <i data-lucide="zap" class="w-5 h-5 text-white fill-white"></i>
+                </div>
+                <div>
+                    <div class="flex items-center gap-2">
+                        <h1 class="font-extrabold text-lg text-white tracking-tight">PulseTrack</h1>
+                        <span class="px-2 py-0.5 text-[10px] font-bold uppercase bg-indigo-500/20 text-indigo-400 border border-indigo-500/30 rounded-full">PRO v3.4</span>
+                    </div>
+                    <p class="text-[11px] text-slate-400 hidden sm:block">Real-Time Social Media Link & Commerce Analytics</p>
+                </div>
+            </div>
+
+            <!-- Navigation Tabs -->
+            <nav class="hidden xl:flex items-center gap-1 bg-slate-950/60 p-1.5 rounded-2xl border border-slate-800 overflow-x-auto">
+                <button onclick="switchTab('overview')" id="nav-overview" class="px-3.5 py-1.5 text-xs font-bold rounded-xl transition-all bg-indigo-600 text-white shadow-sm flex items-center gap-1.5 cursor-pointer whitespace-nowrap">
+                    <i data-lucide="layout-dashboard" class="w-3.5 h-3.5"></i>
+                    <span>Dashboard</span>
+                </button>
+                <button onclick="switchTab('links')" id="nav-links" class="px-3.5 py-1.5 text-xs font-semibold rounded-xl transition-all text-slate-300 hover:text-white hover:bg-slate-800 flex items-center gap-1.5 cursor-pointer whitespace-nowrap">
+                    <i data-lucide="link" class="w-3.5 h-3.5"></i>
+                    <span>Tautan</span>
+                </button>
+                <button onclick="switchTab('videos')" id="nav-videos" class="px-3.5 py-1.5 text-xs font-semibold rounded-xl transition-all text-slate-300 hover:text-white hover:bg-slate-800 flex items-center gap-1.5 cursor-pointer whitespace-nowrap">
+                    <i data-lucide="video" class="w-3.5 h-3.5"></i>
+                    <span>Video</span>
+                </button>
+                <button onclick="switchTab('trending')" id="nav-trending" class="px-3.5 py-1.5 text-xs font-semibold rounded-xl transition-all text-slate-300 hover:text-white hover:bg-slate-800 flex items-center gap-1.5 cursor-pointer whitespace-nowrap">
+                    <i data-lucide="flame" class="w-3.5 h-3.5 text-rose-400"></i>
+                    <span>Tren Populer</span>
+                </button>
+                <button onclick="switchTab('marketing')" id="nav-marketing" class="px-3.5 py-1.5 text-xs font-semibold rounded-xl transition-all text-slate-300 hover:text-white hover:bg-slate-800 flex items-center gap-1.5 cursor-pointer whitespace-nowrap">
+                    <i data-lucide="target" class="w-3.5 h-3.5 text-violet-400"></i>
+                    <span>Pemasaran</span>
+                </button>
+                <button onclick="switchTab('inventory')" id="nav-inventory" class="px-3.5 py-1.5 text-xs font-semibold rounded-xl transition-all text-slate-300 hover:text-white hover:bg-slate-800 flex items-center gap-1.5 cursor-pointer whitespace-nowrap">
+                    <i data-lucide="package" class="w-3.5 h-3.5 text-emerald-400"></i>
+                    <span>Produk & Stok</span>
+                </button>
+                <button onclick="switchTab('affiliate')" id="nav-affiliate" class="px-3.5 py-1.5 text-xs font-semibold rounded-xl transition-all text-slate-300 hover:text-white hover:bg-slate-800 flex items-center gap-1.5 cursor-pointer whitespace-nowrap">
+                    <i data-lucide="wallet" class="w-3.5 h-3.5 text-emerald-400"></i>
+                    <span>Afiliasi</span>
+                </button>
+            </nav>
+
+            <!-- Right Actions -->
+            <div class="flex items-center gap-3">
+                <button onclick="openCreateModal()" class="flex items-center gap-2 px-3.5 py-2 bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-bold rounded-xl transition-all shadow-md shadow-indigo-600/20 cursor-pointer">
+                    <i data-lucide="plus" class="w-4 h-4"></i>
+                    <span class="hidden sm:inline">Buat Tautan</span>
+                </button>
+                <button onclick="openResetModal()" class="flex items-center gap-1.5 px-3 py-2 text-xs font-semibold text-rose-300 bg-rose-950/60 hover:bg-rose-900 border border-rose-800 rounded-xl transition-all cursor-pointer" title="Reset Analitik (/reset)">
+                    <i data-lucide="rotate-ccw" class="w-3.5 h-3.5"></i>
+                    <span class="hidden md:inline">/reset</span>
+                </button>
+                <div class="flex items-center gap-2 pl-2 border-l border-slate-800">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=100&auto=format&fit=crop&q=80" alt="Avatar" class="w-9 h-9 rounded-xl object-cover border border-indigo-500/40">
+                    <div class="hidden lg:block text-left">
+                        <div class="text-xs font-bold text-white">Nisa Aulia</div>
+                        <div class="text-[10px] font-mono text-emerald-400">Member PRO</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content Area -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-8">
+        <!-- Overview Tab Content -->
+        <div id="tab-content-overview" class="space-y-6">
+            <!-- Banner Status -->
+            <div class="bg-gradient-to-r from-indigo-950 via-indigo-900 to-slate-900 border border-indigo-800/60 rounded-3xl p-6 relative overflow-hidden shadow-xl">
+                <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none"></div>
+                <div class="relative z-10 flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+                    <div>
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="flex h-2.5 w-2.5 relative">
+                                <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                                <span class="relative inline-flex rounded-full h-2.5 w-2.5 bg-emerald-500"></span>
+                            </span>
+                            <span class="text-xs font-bold text-emerald-400 tracking-wider uppercase">Live Traffic Radar Aktif</span>
+                            <span class="text-slate-500">·</span>
+                            <span id="active-visitors-badge" class="text-xs font-mono text-indigo-200">18 pengunjung online saat ini</span>
+                        </div>
+                        <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">Dashboard Analitik Sosial & E-Commerce</h2>
+                        <p class="text-xs sm:text-sm text-slate-300 mt-1 max-w-2xl">Pantau performa tautan bio Instagram, TikTok, Reels, dan WhatsApp secara real-time dengan konversi akurat dan pelacakan komisi afiliasi.</p>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-2">
+                        <button onclick="triggerSimulateClick()" class="flex items-center gap-2 px-4 py-2 bg-white text-slate-950 hover:bg-slate-100 font-bold text-xs rounded-xl transition-all shadow-sm cursor-pointer">
+                            <i data-lucide="play" class="w-3.5 h-3.5 fill-slate-950"></i>
+                            <span>Simulasi Klik Masuk</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Key Metric Cards -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-sm">
+                    <div class="flex items-center justify-between text-slate-400 text-xs font-medium">
+                        <span>Total Klik Masuk</span>
+                        <i data-lucide="mouse-pointer-click" class="w-4 h-4 text-indigo-400"></i>
+                    </div>
+                    <div class="mt-3 flex items-baseline gap-2">
+                        <span id="stat-total-clicks" class="text-3xl font-black font-mono tracking-tight text-white">12.845</span>
+                        <span class="text-xs font-bold text-emerald-400">+18.4%</span>
+                    </div>
+                    <p class="text-[11px] text-slate-500 mt-1">Akumulasi seluruh platform</p>
+                </div>
+
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-sm">
+                    <div class="flex items-center justify-between text-slate-400 text-xs font-medium">
+                        <span>Pengunjung Unik</span>
+                        <i data-lucide="users" class="w-4 h-4 text-emerald-400"></i>
+                    </div>
+                    <div class="mt-3 flex items-baseline gap-2">
+                        <span id="stat-unique-visitors" class="text-3xl font-black font-mono tracking-tight text-white">9.420</span>
+                        <span class="text-xs font-bold text-emerald-400">73.3% ratio</span>
+                    </div>
+                    <p class="text-[11px] text-slate-500 mt-1">IP & Perangkat unik terdeteksi</p>
+                </div>
+
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-sm">
+                    <div class="flex items-center justify-between text-slate-400 text-xs font-medium">
+                        <span>Platform Teratas</span>
+                        <i data-lucide="share2" class="w-4 h-4 text-pink-400"></i>
+                    </div>
+                    <div class="mt-3 flex items-baseline gap-2">
+                        <span class="text-3xl font-black tracking-tight text-white">TikTok</span>
+                        <span class="text-xs font-bold font-mono text-indigo-400">44.2%</span>
+                    </div>
+                    <p class="text-[11px] text-slate-500 mt-1">Penyumbang rujukan utama</p>
+                </div>
+
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-sm">
+                    <div class="flex items-center justify-between text-slate-400 text-xs font-medium">
+                        <span>Komisi Afiliasi</span>
+                        <i data-lucide="wallet" class="w-4 h-4 text-emerald-400"></i>
+                    </div>
+                    <div class="mt-3 flex items-baseline gap-2">
+                        <span class="text-3xl font-black font-mono tracking-tight text-white">Rp 2.450k</span>
+                        <span class="text-xs font-bold text-emerald-400">Cair 100%</span>
+                    </div>
+                    <p class="text-[11px] text-slate-500 mt-1">Dapat ditarik ke bank/DANA</p>
+                </div>
+            </div>
+
+            <!-- Two Column Section: Platform Breakdown & Recent Clicks -->
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Platform Breakdown -->
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+                    <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-800">
+                        <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                            <i data-lucide="bar-chart-3" class="w-4 h-4 text-indigo-400"></i>
+                            <span>Sebaran Platform Media Sosial</span>
+                        </h3>
+                        <span class="text-xs font-mono text-slate-400">Live Breakdown</span>
+                    </div>
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex justify-between text-xs mb-1">
+                                <span class="font-semibold text-white">TikTok Shop & Bio</span>
+                                <span class="font-mono text-indigo-400 font-bold">5,680 klik (44.2%)</span>
+                            </div>
+                            <div class="h-2 w-full bg-slate-800 rounded-full overflow-hidden">
+                                <div class="h-full bg-indigo-500 rounded-full" style="width: 44.2%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-xs mb-1">
+                                <span class="font-semibold text-white">Instagram Bio & Reels</span>
+                                <span class="font-mono text-pink-400 font-bold">4,120 klik (32.1%)</span>
+                            </div>
+                            <div class="h-2 w-full bg-slate-800 rounded-full overflow-hidden">
+                                <div class="h-full bg-pink-500 rounded-full" style="width: 32.1%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-xs mb-1">
+                                <span class="font-semibold text-white">WhatsApp Broadcast</span>
+                                <span class="font-mono text-emerald-400 font-bold">2,150 klik (16.7%)</span>
+                            </div>
+                            <div class="h-2 w-full bg-slate-800 rounded-full overflow-hidden">
+                                <div class="h-full bg-emerald-500 rounded-full" style="width: 16.7%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-xs mb-1">
+                                <span class="font-semibold text-white">YouTube Shorts / Lainnya</span>
+                                <span class="font-mono text-amber-400 font-bold">895 klik (7.0%)</span>
+                            </div>
+                            <div class="h-2 w-full bg-slate-800 rounded-full overflow-hidden">
+                                <div class="h-full bg-amber-500 rounded-full" style="width: 7.0%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Live Clicks Feed -->
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+                    <div class="flex items-center justify-between mb-4 pb-3 border-b border-slate-800">
+                        <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                            <i data-lucide="activity" class="w-4 h-4 text-emerald-400"></i>
+                            <span>Aktivitas Pengunjung Terbaru</span>
+                        </h3>
+                        <span class="text-xs font-mono text-emerald-400 flex items-center gap-1.5">
+                            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+                            Live Feed
+                        </span>
+                    </div>
+                    <div id="recent-clicks-list" class="space-y-3">
+                        <div class="flex items-center justify-between p-2.5 bg-slate-950/60 rounded-xl border border-slate-800/80 text-xs">
+                            <div class="flex items-center gap-3">
+                                <span class="px-2 py-0.5 bg-indigo-500/20 text-indigo-300 font-bold rounded text-[10px]">TikTok</span>
+                                <div>
+                                    <div class="font-bold text-white">Jakarta Selatan, Indonesia</div>
+                                    <div class="text-[11px] text-slate-400 font-mono">/r/promo-merdeka · Mobile (iOS)</div>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="font-mono text-indigo-400">182.253.11</div>
+                                <div class="text-[10px] text-slate-500">Baru saja</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between p-2.5 bg-slate-950/60 rounded-xl border border-slate-800/80 text-xs">
+                            <div class="flex items-center gap-3">
+                                <span class="px-2 py-0.5 bg-pink-500/20 text-pink-300 font-bold rounded text-[10px]">Instagram</span>
+                                <div>
+                                    <div class="font-bold text-white">Surabaya, Indonesia</div>
+                                    <div class="text-[11px] text-slate-400 font-mono">/r/outfit-kuliah · Mobile (Android)</div>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="font-mono text-indigo-400">114.125.88</div>
+                                <div class="text-[10px] text-slate-500">1 menit lalu</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Links Tab Content -->
+        <div id="tab-content-links" class="space-y-6 hidden">
+            <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 bg-slate-900 border border-slate-800 rounded-2xl p-6">
+                <div>
+                    <h2 class="text-xl font-bold text-white">Manajemen Tautan Pelacak</h2>
+                    <p class="text-xs text-slate-400 mt-0.5">Kelola dan buat tautan UTM khusus untuk setiap postingan media sosial Anda.</p>
+                </div>
+                <button onclick="openCreateModal()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs rounded-xl transition-all cursor-pointer">
+                    + Buat Tautan Baru
+                </button>
+            </div>
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl overflow-hidden">
+                <div class="p-4 border-b border-slate-800 flex items-center justify-between text-xs text-slate-400 font-semibold">
+                    <span>DAFTAR TAUTAN AKTIF (4)</span>
+                    <span>TOTAL KLIK</span>
+                </div>
+                <div class="divide-y divide-slate-800" id="links-table-body">
+                    <div class="p-4 flex items-center justify-between text-xs">
+                        <div>
+                            <div class="font-bold text-white text-sm">Promo Kemerdekaan Serum Glowing</div>
+                            <div class="text-slate-400 font-mono text-[11px] mt-0.5">/r/promo-merdeka · TikTok Shop</div>
+                        </div>
+                        <div class="text-right font-mono font-bold text-indigo-400 text-sm">
+                            5,680 klik
+                        </div>
+                    </div>
+                    <div class="p-4 flex items-center justify-between text-xs">
+                        <div>
+                            <div class="font-bold text-white text-sm">Oversized Linen Shirt Outfit</div>
+                            <div class="text-slate-400 font-mono text-[11px] mt-0.5">/r/outfit-kuliah · Instagram Bio</div>
+                        </div>
+                        <div class="text-right font-mono font-bold text-indigo-400 text-sm">
+                            4,120 klik
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Videos Tab Content -->
+        <div id="tab-content-videos" class="space-y-6 hidden">
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6">
+                <h2 class="text-xl font-bold text-white">Analisis Video & Konversi CTR</h2>
+                <p class="text-xs text-slate-400 mt-0.5">Pelacakan performa konten video TikTok, Reels, dan Shorts yang menghasilkan klik terbanyak.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="px-2.5 py-1 bg-rose-500/20 text-rose-300 rounded-lg text-xs font-bold">TikTok</span>
+                        <span class="text-xs font-mono text-emerald-400 font-bold">CTR 4.8%</span>
+                    </div>
+                    <h4 class="font-bold text-white">Review Jujur Serum 100rb yang Bikin Kaget</h4>
+                    <p class="text-xs text-slate-400">Views: 2.85M · Clicks: 58.4k · Est. Earnings: Rp 82.5 Juta</p>
+                </div>
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-3">
+                    <div class="flex items-center justify-between">
+                        <span class="px-2.5 py-1 bg-indigo-500/20 text-indigo-300 rounded-lg text-xs font-bold">Instagram Reels</span>
+                        <span class="text-xs font-mono text-emerald-400 font-bold">CTR 3.6%</span>
+                    </div>
+                    <h4 class="font-bold text-white">Behind the Scene Kemeja Linen Premium</h4>
+                    <p class="text-xs text-slate-400">Views: 1.42M · Clicks: 34.8k · Est. Earnings: Rp 215 Juta</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Trending Tab Content -->
+        <div id="tab-content-trending" class="space-y-6 hidden">
+            <div class="bg-gradient-to-r from-rose-950 via-slate-900 to-indigo-950 border border-rose-800/50 rounded-2xl p-6">
+                <div class="flex items-center gap-2 mb-2">
+                    <i data-lucide="flame" class="w-5 h-5 text-rose-400 fill-rose-400"></i>
+                    <span class="text-xs font-bold uppercase text-rose-400 tracking-wider">Radar Tren Populer 2026</span>
+                </div>
+                <h2 class="text-2xl font-black text-white">Produk & Video Afiliasi serta Non-Afiliasi yang Sedang Trending</h2>
+                <p class="text-xs text-slate-300 mt-1">Temukan produk dengan komisi tertinggi dan produk brand sendiri dengan margin optimal untuk konten media sosial Anda.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4">
+                    <div class="flex items-center justify-between">
+                        <span class="px-3 py-1 bg-emerald-500/20 text-emerald-300 rounded-lg text-xs font-bold">💰 Afiliasi (Komisi 15%)</span>
+                        <span class="text-xs font-mono font-bold text-rose-400">Viral Score: 98</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white">Serum Pencerah Kulit Niacinamide 10%</h3>
+                    <p class="text-xs text-slate-400">Komisi per unit: <strong class="text-emerald-400">Rp 22.350</strong> · Terjual 3.4k/24 jam di TikTok Shop.</p>
+                    <button onclick="alert('Berhasil membuat tautan pelacak afiliasi untuk produk ini!')" class="w-full py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-bold cursor-pointer">
+                        ⚡ Lacak & Promosikan Sekarang
+                    </button>
+                </div>
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-4">
+                    <div class="flex items-center justify-between">
+                        <span class="px-3 py-1 bg-cyan-500/20 text-cyan-300 rounded-lg text-xs font-bold">⭐ Non-Afiliasi (Brand Sendiri)</span>
+                        <span class="text-xs font-mono font-bold text-cyan-400">Margin: 68.5%</span>
+                    </div>
+                    <h3 class="text-lg font-bold text-white">Oversized Linen Shirt Korean Olive</h3>
+                    <p class="text-xs text-slate-400">Harga: Rp 199.000 · Terjual 1.850 unit di Instagram Shop & Direct Store.</p>
+                    <button onclick="alert('Berhasil membuat tautan kampanye produk brand sendiri!')" class="w-full py-2 bg-cyan-600 hover:bg-cyan-500 text-white rounded-xl text-xs font-bold cursor-pointer">
+                        📦 Kelola Stok & Kampanye
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Marketing Attribution Tab Content -->
+        <div id="tab-content-marketing" class="space-y-6 hidden">
+            <div class="bg-gradient-to-r from-violet-950 via-slate-900 to-indigo-950 border border-violet-800/50 rounded-2xl p-6">
+                <h2 class="text-2xl font-black text-white">Analisis Pemasaran (Marketing Attribution)</h2>
+                <p class="text-xs text-slate-300 mt-1">Bandingkan model atribusi (First Touch, Last Touch, Linear, Time-Decay) untuk mengukur ROAS nyata TikTok, IG, dan Afiliasi.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-3">
+                    <div class="text-xs font-bold text-violet-400 uppercase">Omzet Teratribusi Total</div>
+                    <div class="text-3xl font-black font-mono text-white">Rp 287.000.000</div>
+                    <p class="text-xs text-slate-400">ROAS Keseluruhan: <strong>8.82x</strong></p>
+                </div>
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-3">
+                    <div class="text-xs font-bold text-cyan-400 uppercase">Biaya Akuisisi Pelanggan (CAC)</div>
+                    <div class="text-3xl font-black font-mono text-white">Rp 22.666</div>
+                    <p class="text-xs text-slate-400">Efisiensi iklan meningkat +14.2% bulan ini.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Inventory Tab Content -->
+        <div id="tab-content-inventory" class="space-y-6 hidden">
+            <div class="bg-gradient-to-r from-emerald-950 via-slate-900 to-slate-900 border border-emerald-800/50 rounded-2xl p-6">
+                <h2 class="text-2xl font-black text-white">Analisis Produk & Manajemen Stok (Inventory)</h2>
+                <p class="text-xs text-slate-300 mt-1">Pantau kecepatan perputaran (sell-through rate), klasifikasi Pareto ABC, dan rekomendasi restock pemesanan ulang.</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-3">
+                    <div class="text-xs font-bold text-emerald-400 uppercase">Nilai Stok Fisik Total</div>
+                    <div class="text-3xl font-black font-mono text-white">Rp 48.500.000</div>
+                    <p class="text-xs text-slate-400">Rata-rata Margin Keuntungan: <strong class="text-emerald-400">64.6%</strong></p>
+                </div>
+                <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 space-y-3">
+                    <div class="text-xs font-bold text-rose-400 uppercase">Peringatan SKU Kritis</div>
+                    <div class="text-3xl font-black font-mono text-white">2 SKU</div>
+                    <p class="text-xs text-slate-400">Perlu restock segera untuk mencegah kehabisan stok.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Affiliate Tab Content -->
+        <div id="tab-content-affiliate" class="space-y-6 hidden">
+            <div class="bg-gradient-to-r from-emerald-950 via-slate-900 to-indigo-950 border border-emerald-800/60 rounded-2xl p-6 flex flex-col md:flex-row items-center justify-between gap-6">
+                <div>
+                    <span class="px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px] font-bold uppercase tracking-wider">Program Komisi 100% Dapat Ditarik</span>
+                    <h2 class="text-2xl font-black text-white mt-1">Saldo Komisi Afiliasi Anda</h2>
+                    <p class="text-xs text-slate-300 mt-1">Undang kreator atau teman bergabung dengan kode referral Anda dan dapatkan komisi langsung.</p>
+                </div>
+                <div class="bg-slate-950/80 border border-emerald-500/40 rounded-2xl p-5 text-center shrink-0 min-w-[240px]">
+                    <div class="text-xs text-slate-400 font-semibold">Total Komisi Tersedia</div>
+                    <div class="text-3xl font-black font-mono text-emerald-400 my-1">Rp 2.450.000</div>
+                    <button onclick="alert('Berhasil mengajukan penarikan komisi afiliasi ke rekening Anda!')" class="w-full mt-3 py-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs rounded-xl shadow-md cursor-pointer">
+                        Tarik Saldo Sekarang
+                    </button>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modal: Create Link -->
+    <div id="modal-create" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl w-full max-w-md p-6 space-y-4 shadow-2xl">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+                <h3 class="text-base font-bold text-white">Buat Tautan Pelacak Baru</h3>
+                <button onclick="closeCreateModal()" class="text-slate-400 hover:text-white cursor-pointer"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+            <div class="space-y-3 text-xs">
+                <div>
+                    <label class="block font-semibold text-slate-300 mb-1">Judul Tautan / Kampanye</label>
+                    <input type="text" id="input-title" class="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-indigo-500" placeholder="Contoh: Promo Flash Sale TikTok">
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-300 mb-1">URL Tujuan (Destination URL)</label>
+                    <input type="text" id="input-url" class="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-indigo-500" placeholder="https://shopee.co.id/produk-anda">
+                </div>
+                <div>
+                    <label class="block font-semibold text-slate-300 mb-1">Platform Media Sosial</label>
+                    <select id="input-platform" class="w-full px-3 py-2 bg-slate-950 border border-slate-800 rounded-xl text-white focus:outline-none focus:border-indigo-500">
+                        <option>TikTok</option>
+                        <option>Instagram</option>
+                        <option>WhatsApp</option>
+                        <option>YouTube</option>
+                    </select>
+                </div>
+            </div>
+            <div class="flex justify-end gap-2 pt-3 border-t border-slate-800">
+                <button onclick="closeCreateModal()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-xs font-semibold cursor-pointer">Batal</button>
+                <button onclick="saveNewLink()" class="px-4 py-2 bg-indigo-600 hover:bg-indigo-500 text-white rounded-xl text-xs font-bold cursor-pointer">Simpan Tautan</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal: Reset Analytics (/reset) -->
+    <div id="modal-reset" class="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-slate-900 border border-rose-900/50 rounded-2xl w-full max-w-md p-6 space-y-4 shadow-2xl">
+            <div class="flex items-center justify-between pb-3 border-b border-slate-800">
+                <h3 class="text-base font-bold text-rose-400 flex items-center gap-2">
+                    <i data-lucide="rotate-ccw" class="w-4 h-4"></i>
+                    <span>Reset Data Analitik (/reset)</span>
+                </h3>
+                <button onclick="closeResetModal()" class="text-slate-400 hover:text-white cursor-pointer"><i data-lucide="x" class="w-5 h-5"></i></button>
+            </div>
+            <p class="text-xs text-slate-300 leading-relaxed">Pilih tindakan reset yang ingin Anda lakukan pada sistem analitik PulseTrack:</p>
+            <div class="space-y-2 text-xs">
+                <label class="flex items-center gap-3 p-3 bg-slate-950 rounded-xl border border-slate-800 cursor-pointer">
+                    <input type="radio" name="reset-mode" value="clicks" checked class="text-rose-600">
+                    <div>
+                        <div class="font-bold text-white">Reset Klik Saja (Kosongkan Log)</div>
+                        <div class="text-[11px] text-slate-400">Menghapus riwayat klik masuk dan menyetel statistik ke 0.</div>
+                    </div>
+                </label>
+                <label class="flex items-center gap-3 p-3 bg-slate-950 rounded-xl border border-slate-800 cursor-pointer">
+                    <input type="radio" name="reset-mode" value="defaults" class="text-rose-600">
+                    <div>
+                        <div class="font-bold text-white">Pulihkan Data Awal (Sample Defaults)</div>
+                        <div class="text-[11px] text-slate-400">Mengembalikan data demo standar berkinerja tinggi.</div>
+                    </div>
+                </label>
+            </div>
+            <div class="flex justify-end gap-2 pt-3 border-t border-slate-800">
+                <button onclick="closeResetModal()" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-xs font-semibold cursor-pointer">Batal</button>
+                <button onclick="confirmReset()" class="px-4 py-2 bg-rose-600 hover:bg-rose-500 text-white rounded-xl text-xs font-bold cursor-pointer">Eksekusi Reset</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // Initialize Lucide Icons
+        lucide.createIcons();
+
+        // Tab Switching Logic
+        function switchTab(tabId) {
+            const tabs = ['overview', 'links', 'videos', 'trending', 'marketing', 'inventory', 'affiliate'];
+            tabs.forEach(t => {
+                const content = document.getElementById('tab-content-' + t);
+                const btn = document.getElementById('nav-' + t);
+                if (content) {
+                    if (t === tabId) {
+                        content.classList.remove('hidden');
+                    } else {
+                        content.classList.add('hidden');
+                    }
+                }
+                if (btn) {
+                    if (t === tabId) {
+                        btn.className = "px-3.5 py-1.5 text-xs font-bold rounded-xl transition-all bg-indigo-600 text-white shadow-sm flex items-center gap-1.5 cursor-pointer whitespace-nowrap";
+                    } else {
+                        btn.className = "px-3.5 py-1.5 text-xs font-semibold rounded-xl transition-all text-slate-300 hover:text-white hover:bg-slate-800 flex items-center gap-1.5 cursor-pointer whitespace-nowrap";
+                    }
+                }
+            });
+        }
+
+        // Modal Controls
+        function openCreateModal() {
+            document.getElementById('modal-create').classList.remove('hidden');
+        }
+        function closeCreateModal() {
+            document.getElementById('modal-create').classList.add('hidden');
+        }
+        function openResetModal() {
+            document.getElementById('modal-reset').classList.remove('hidden');
+        }
+        function closeResetModal() {
+            document.getElementById('modal-reset').classList.add('hidden');
+        }
+
+        function triggerSimulateClick() {
+            const totalClicksEl = document.getElementById('stat-total-clicks');
+            let current = parseInt(totalClicksEl.innerText.replace(/\./g, '')) + 1;
+            totalClicksEl.innerText = current.toLocaleString('id-ID');
+            alert('Berhasil mensimulasikan 1 klik masuk baru dari media sosial!');
+        }
+
+        function confirmReset() {
+            document.getElementById('stat-total-clicks').innerText = '0';
+            closeResetModal();
+            alert('Analitik berhasil di-reset!');
+        }
+
+        function saveNewLink() {
+            const title = document.getElementById('input-title').value;
+            if (!title) {
+                alert('Mohon masukkan judul tautan.');
+                return;
+            }
+            alert('Tautan "' + title + '" berhasil dibuat!');
+            closeCreateModal();
+            switchTab('links');
+        }
+    </script>
+</body>
+</html>

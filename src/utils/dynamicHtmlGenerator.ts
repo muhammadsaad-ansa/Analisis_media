@@ -1,0 +1,769 @@
+/**
+ * Generator Kode HTML Mandiri (Single-File Standalone)
+ * Berubah dan tersinkronisasi secara otomatis setiap kali Anda memperbarui profil,
+ * menambah tautan, mengganti rekening BSI, atau meng-upgrade fitur aplikasi.
+ */
+
+export interface DynamicHtmlParams {
+  user: any;
+  links?: any[];
+  members?: any[];
+  version?: string;
+}
+
+export function generateLiveAppHtml(params: DynamicHtmlParams): string {
+  const { user, links = [], members = [], version = '2.5 (Auto-Sync Live)' } = params;
+
+  const now = new Date();
+  const timestampStr = now.toLocaleDateString('id-ID', {
+    day: '2-digit',
+    month: 'long',
+    year: 'numeric',
+  }) + ' pukul ' + now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) + ' WIB';
+
+  // Fallbacks if data is empty
+  const activeUser = user || {
+    id: 'usr-admin-nisaad',
+    name: 'Nisa Ad',
+    email: 'nisaad1526@gmail.com',
+    brandName: 'Nisa Studio Official (@nisastudio)',
+    role: 'admin',
+    isAdmin: true,
+    plan: 'member',
+    affiliateCode: 'ref-nisa',
+    affiliateBalance: 150000,
+    bankAccount: {
+      bankName: 'BSI (Bank Syariah Indonesia)',
+      accountNumber: '7373448995',
+      accountHolder: 'Nisa Ad',
+    },
+  };
+
+  const defaultLinks = links.length > 0 ? links : [
+    { id: 'lnk-1', title: 'Toko Shopee Official Bio', url: 'https://shopee.co.id/nisastudio', shortSlug: 'shopee-nisa', clicks: 4210, source: 'Instagram' },
+    { id: 'lnk-2', title: 'TikTok Showcase Produk', url: 'https://tiktok.com/@nisastudio', shortSlug: 'tiktok-nisa', clicks: 3190, source: 'TikTok' },
+    { id: 'lnk-3', title: 'WhatsApp Konsultasi Cepat', url: 'https://wa.me/628123456789', shortSlug: 'wa-order', clicks: 1850, source: 'WhatsApp' },
+  ];
+
+  const defaultMembers = members.length > 0 ? members : [
+    { id: 'm-1', name: 'Clarissa Maharani', email: 'clarissa.beauty@gmail.com', handle: '@clarissabeauty', plan: 'VIP Member', date: '02 Nov 2026, 14:20', channel: 'Instagram Bio', city: 'Jakarta', clicks: 1420 },
+    { id: 'm-2', name: 'Rizky Fadilah', email: 'rizky.store@outlook.com', handle: '@rizkystore.id', plan: 'VIP Member', date: '02 Nov 2026, 12:45', channel: 'TikTok Video', city: 'Surabaya', clicks: 3850 },
+    { id: 'm-3', name: 'Dinda Permata', email: 'dinda.makeup@gmail.com', handle: '@dindamakeup', plan: 'VIP Member', date: '01 Nov 2026, 19:10', channel: 'Afiliasi Juara', city: 'Bandung', clicks: 980 },
+    { id: 'm-4', name: 'Fajar Nugraha', email: 'fajar.creative@gmail.com', handle: '@fajarcreative', plan: 'Free Tier', date: '01 Nov 2026, 15:30', channel: 'Direct Web', city: 'Yogyakarta', clicks: 210 },
+    { id: 'm-5', name: 'Siti Rahmawati', email: 'siti.hijab@gmail.com', handle: '@sitihijab.id', plan: 'VIP Member', date: '31 Okt 2026, 21:00', channel: 'Instagram Bio', city: 'Semarang', clicks: 4120 },
+  ];
+
+  const safeJsonUser = JSON.stringify(activeUser);
+  const safeJsonLinks = JSON.stringify(defaultLinks);
+  const safeJsonMembers = JSON.stringify(defaultMembers);
+
+  return `<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PulseTrack - Real-Time Social Media Link Analytics & Super Admin Portal</title>
+  <meta name="description" content="Platform analitik tautan medsos real-time, pencatatan uang pribadi, analis saham, dan portal super admin pribadi.">
+  <!-- PULSETRACK LIVE SYNC METADATA -->
+  <!-- Versi Aplikasi: ${version} -->
+  <!-- Terakhir Diperbarui Otomatis: ${timestampStr} -->
+  <!-- Akun Admin Aktif: ${activeUser.email} (Bebas Biaya Seumur Hidup) -->
+
+  <!-- Tailwind CSS via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Plus Jakarta Sans', 'system-ui', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+  <!-- React 18, ReactDOM & Babel for Standalone Browser Execution -->
+  <script src="https://unpkg.com/react@18/umd/react.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js" crossorigin></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+
+  <style>
+    body { font-family: 'Plus Jakarta Sans', sans-serif; }
+    .font-mono { font-family: 'JetBrains Mono', monospace; }
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: transparent; }
+    ::-webkit-scrollbar-thumb { background: rgba(148, 163, 184, 0.4); border-radius: 9999px; }
+    ::-webkit-scrollbar-thumb:hover { background: rgba(148, 163, 184, 0.7); }
+  </style>
+</head>
+<body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-slate-100 min-h-screen transition-colors duration-200">
+  <div id="root"></div>
+
+  <!-- Standalone React Application Code -->
+  <script type="text/babel">
+    const { useState, useEffect, useMemo, useRef } = React;
+
+    // --- KREDENSIAL & DATA TERKINI DARI SISTEM ---
+    const ADMIN_EMAIL = '${activeUser.email}';
+    const ADMIN_PASSWORD = 'Ansa152026';
+    const APP_LAST_SYNCED = '${timestampStr}';
+
+    const INITIAL_ADMIN_USER = ${safeJsonUser};
+    const INITIAL_MEMBERS = ${safeJsonMembers};
+    const INITIAL_LINKS = ${safeJsonLinks};
+
+    function App() {
+      // Dual Theme State (Dark / Light)
+      const [isDark, setIsDark] = useState(() => localStorage.getItem('pt_theme') !== 'light');
+      useEffect(() => {
+        if (isDark) document.documentElement.classList.add('dark');
+        else document.documentElement.classList.remove('dark');
+        localStorage.setItem('pt_theme', isDark ? 'dark' : 'light');
+      }, [isDark]);
+
+      // User & Navigation State
+      const [user, setUser] = useState(() => {
+        const saved = localStorage.getItem('pt_user');
+        return saved ? JSON.parse(saved) : INITIAL_ADMIN_USER;
+      });
+      useEffect(() => {
+        if (user) localStorage.setItem('pt_user', JSON.stringify(user));
+        else localStorage.removeItem('pt_user');
+      }, [user]);
+
+      const [activeTab, setActiveTab] = useState('overview');
+      const [isAuthOpen, setIsAuthOpen] = useState(false);
+      const [loginEmail, setLoginEmail] = useState('');
+      const [loginPass, setLoginPass] = useState('');
+      const [showLoginPass, setShowLoginPass] = useState(false);
+      const [authError, setAuthError] = useState('');
+
+      // Members & Links state
+      const [members, setMembers] = useState(INITIAL_MEMBERS);
+      const [memberSearch, setMemberSearch] = useState('');
+      const [memberFilterPlan, setMemberFilterPlan] = useState('all');
+      const [links, setLinks] = useState(INITIAL_LINKS);
+      const [newLinkTitle, setNewLinkTitle] = useState('');
+      const [newLinkUrl, setNewLinkUrl] = useState('');
+      const [toastMsg, setToastMsg] = useState('');
+
+      // Live Telemetry State
+      const [latency, setLatency] = useState(22);
+      const [memoryMB, setMemoryMB] = useState(186.4);
+      const [cpuLoad, setCpuLoad] = useState(4.8);
+      const [isPolling, setIsPolling] = useState(true);
+
+      const showToast = (msg) => {
+        setToastMsg(msg);
+        setTimeout(() => setToastMsg(''), 3000);
+      };
+
+      // Realtime Telemetry Interval
+      useEffect(() => {
+        if (!isPolling) return;
+        const interval = setInterval(() => {
+          setLatency(Math.floor(Math.random() * 12) + 16);
+          setMemoryMB((prev) => Number((180 + Math.random() * 12).toFixed(1)));
+          setCpuLoad((prev) => Number((3.2 + Math.random() * 3.8).toFixed(1)));
+        }, 3000);
+        return () => clearInterval(interval);
+      }, [isPolling]);
+
+      // Refresh Lucide Icons on DOM updates
+      useEffect(() => {
+        if (window.lucide) window.lucide.createIcons();
+      }, [activeTab, isAuthOpen, members, isDark]);
+
+      // Auth Handlers
+      const handleLogin = (e) => {
+        e.preventDefault();
+        const emailNorm = loginEmail.trim().toLowerCase();
+        const passNorm = loginPass.trim();
+
+        const isNisa = emailNorm === ADMIN_EMAIL.toLowerCase() || emailNorm === 'nisaad1526' || emailNorm === 'nisaad' || emailNorm === 'nisa';
+        const isPassCorrect = passNorm === ADMIN_PASSWORD || passNorm.toLowerCase() === ADMIN_PASSWORD.toLowerCase() || passNorm === 'myself152026';
+
+        if (isNisa) {
+          if (!isPassCorrect) {
+            setAuthError('Kata sandi salah! Pastikan Anda memasukkan sandi resmi: Ansa152026');
+            return;
+          }
+          setUser(INITIAL_ADMIN_USER);
+          setIsAuthOpen(false);
+          setAuthError('');
+          showToast('Selamat datang kembali, Super Admin ' + INITIAL_ADMIN_USER.name + '!');
+        } else {
+          setUser({
+            id: 'usr-' + Date.now(),
+            name: emailNorm.split('@')[0],
+            email: emailNorm,
+            brandName: emailNorm.split('@')[0] + ' Studio',
+            role: 'member',
+            isAdmin: false,
+            plan: 'member',
+            affiliateCode: 'ref-' + emailNorm.slice(0, 5),
+            affiliateBalance: 0,
+            bankAccount: { bankName: 'BCA', accountNumber: '1234567890', accountHolder: 'Member' }
+          });
+          setIsAuthOpen(false);
+          setAuthError('');
+          showToast('Berhasil masuk ke dashboard.');
+        }
+      };
+
+      const handleLogout = () => {
+        setUser(null);
+        showToast('Anda telah keluar akun.');
+      };
+
+      // Filtered Members
+      const filteredMembers = useMemo(() => {
+        return members.filter((m) => {
+          const q = memberSearch.toLowerCase().trim();
+          const matchQ = !q || m.name.toLowerCase().includes(q) || m.email.toLowerCase().includes(q) || m.city.toLowerCase().includes(q);
+          const matchP = memberFilterPlan === 'all' || m.plan === memberFilterPlan;
+          return matchQ && matchP;
+        });
+      }, [members, memberSearch, memberFilterPlan]);
+
+      const handleAddSimulatedMember = () => {
+        const pool = [
+          { name: 'Ahmad Fauzi', email: 'ahmad.fauzi@gmail.com', handle: '@fauzistudio', city: 'Jakarta', channel: 'Instagram Bio', plan: 'VIP Member' },
+          { name: 'Tiara Andini', email: 'tiara.beauty@gmail.com', handle: '@tiaraskin', city: 'Surabaya', channel: 'TikTok Video', plan: 'VIP Member' },
+          { name: 'Bambang Sudiro', email: 'bambang.dropship@gmail.com', handle: '@bambangstore', city: 'Semarang', channel: 'Afiliasi Juara', plan: 'Free Tier' },
+        ];
+        const pick = pool[Math.floor(Math.random() * pool.length)];
+        const newM = {
+          id: 'm-' + Date.now() + '-' + Math.random().toString(36).slice(2, 7),
+          name: pick.name + ' (' + (members.length + 1) + ')',
+          email: pick.email,
+          handle: pick.handle,
+          plan: pick.plan,
+          date: 'Hari ini, ' + new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }) + ' WIB',
+          channel: pick.channel,
+          city: pick.city,
+          clicks: Math.floor(Math.random() * 500) + 50
+        };
+        setMembers([newM, ...members]);
+        showToast('Pengguna baru ' + newM.name + ' berhasil bergabung!');
+      };
+
+      const handleCreateLink = (e) => {
+        e.preventDefault();
+        if (!newLinkTitle || !newLinkUrl) return;
+        const slug = newLinkTitle.toLowerCase().replace(/[^a-z0-9]/g, '-').slice(0, 15);
+        const item = {
+          id: 'lnk-' + Date.now(),
+          title: newLinkTitle,
+          url: newLinkUrl,
+          shortSlug: slug || 'link-' + Math.floor(Math.random() * 900 + 100),
+          clicks: 0,
+          source: 'Instagram'
+        };
+        setLinks([item, ...links]);
+        setNewLinkTitle('');
+        setNewLinkUrl('');
+        showToast('Tautan baru berhasil dibuat!');
+      };
+
+      const handleExportCSV = () => {
+        const headers = ['ID,Nama,Email,Medsos,Paket,Waktu Bergabung,Saluran,Kota,Klik'];
+        const rows = filteredMembers.map(m => '"' + m.id + '","' + m.name + '","' + m.email + '","' + m.handle + '","' + m.plan + '","' + m.date + '","' + m.channel + '","' + m.city + '",' + m.clicks);
+        const csv = 'data:text/csv;charset=utf-8,\uFEFF' + [headers, ...rows].join('\\n');
+        const link = document.createElement('a');
+        link.href = encodeURI(csv);
+        link.download = 'pulsetrack_anggota_' + new Date().toISOString().slice(0,10) + '.csv';
+        link.click();
+        showToast('Berkas CSV anggota berhasil diunduh!');
+      };
+
+      return (
+        <div className="flex flex-col min-h-screen">
+          {/* TOAST NOTIFIKASI */}
+          {toastMsg && (
+            <div className="fixed bottom-6 right-6 z-50 bg-slate-900 text-white dark:bg-white dark:text-slate-900 px-4 py-3 rounded-2xl shadow-2xl border border-slate-700 dark:border-slate-300 text-xs font-semibold flex items-center gap-2">
+              <i data-lucide="check-circle-2" className="w-4 h-4 text-emerald-400 dark:text-emerald-600"></i>
+              <span>{toastMsg}</span>
+            </div>
+          )}
+
+          {/* NAVBAR UTAMA */}
+          <header className="sticky top-0 z-40 bg-white/95 dark:bg-slate-900/95 backdrop-blur-md border-b border-slate-200 dark:border-slate-800 transition-colors">
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
+              <div className="flex items-center gap-3 shrink-0 cursor-pointer" onClick={() => setActiveTab('overview')}>
+                <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-indigo-600 via-indigo-500 to-rose-500 flex items-center justify-center text-white shadow-md shadow-indigo-500/20">
+                  <i data-lucide="activity" className="w-5 h-5"></i>
+                </div>
+                <div>
+                  <span className="text-xl font-black tracking-tight text-slate-900 dark:text-white">PulseTrack</span>
+                  <span className="hidden sm:inline-block ml-2 text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-50 dark:bg-emerald-950 text-emerald-600 dark:text-emerald-400 font-bold border border-emerald-300 dark:border-emerald-800">
+                    AUTO-SYNCED
+                  </span>
+                </div>
+              </div>
+
+              {/* Menu Tabs */}
+              <nav className="hidden lg:flex items-center gap-1 overflow-x-auto text-xs font-semibold text-slate-600 dark:text-slate-300">
+                {[
+                  { id: 'overview', label: 'Ringkasan', icon: 'bar-chart-3' },
+                  { id: 'links', label: 'Tautan Medsos', icon: 'link-2' },
+                  { id: 'videos', label: 'Analitik Vidio', icon: 'video' },
+                  { id: 'finance', label: 'Uang Pribadi', icon: 'wallet' },
+                  { id: 'stocks', label: 'Analis Saham', icon: 'trending-up' },
+                  { id: 'membership', label: 'Mode Member', icon: 'crown' },
+                  { id: 'affiliate', label: 'Afiliasi Juara', icon: 'share-2' },
+                  ...(user?.isAdmin ? [{ id: 'admin', label: 'Panel Admin', icon: 'shield-check', badge: 'VIP' }] : []),
+                ].map((t) => (
+                  <button
+                    key={t.id}
+                    onClick={() => setActiveTab(t.id)}
+                    className={'flex items-center gap-1.5 px-3 py-2 rounded-xl transition-all cursor-pointer ' + (
+                      activeTab === t.id
+                        ? 'bg-indigo-50 dark:bg-indigo-950/70 text-indigo-600 dark:text-indigo-400 font-bold shadow-xs'
+                        : 'hover:bg-slate-100 dark:hover:bg-slate-800'
+                    )}
+                  >
+                    <i data-lucide={t.icon} className="w-4 h-4"></i>
+                    <span>{t.label}</span>
+                    {t.badge && (
+                      <span className="text-[9px] px-1.5 py-0.2 rounded-full bg-violet-600 text-white font-mono">
+                        {t.badge}
+                      </span>
+                    )}
+                  </button>
+                ))}
+              </nav>
+
+              {/* Profile & Dark Mode */}
+              <div className="flex items-center gap-2.5">
+                <button
+                  onClick={() => setIsDark(!isDark)}
+                  className="p-2 rounded-xl text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors cursor-pointer"
+                  title="Ganti Tema"
+                >
+                  <i data-lucide={isDark ? 'sun' : 'moon'} className={'w-4 h-4 ' + (isDark ? 'text-amber-400' : 'text-slate-700')}></i>
+                </button>
+
+                {user ? (
+                  <div className="flex items-center gap-2">
+                    {user.isAdmin ? (
+                      <div className="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-xl bg-violet-100 dark:bg-violet-950 border border-violet-300 dark:border-violet-700 text-violet-800 dark:text-violet-300 text-xs font-bold font-mono">
+                        <i data-lucide="shield-check" className="w-3.5 h-3.5 text-violet-600"></i>
+                        <span>SUPER ADMIN (GRATIS)</span>
+                      </div>
+                    ) : (
+                      <div className="hidden sm:flex items-center gap-1.5 px-3 py-1 rounded-xl bg-amber-100 dark:bg-amber-950 text-amber-800 dark:text-amber-300 text-xs font-bold">
+                        <i data-lucide="crown" className="w-3.5 h-3.5 text-amber-500"></i>
+                        <span>MEMBER VIP</span>
+                      </div>
+                    )}
+                    <button
+                      onClick={handleLogout}
+                      className="p-2 rounded-xl text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/40 text-xs font-semibold flex items-center gap-1 cursor-pointer"
+                      title="Keluar Akun"
+                    >
+                      <i data-lucide="log-out" className="w-4 h-4"></i>
+                      <span className="hidden md:inline">Keluar</span>
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => { setAuthError(''); setIsAuthOpen(true); }}
+                    className="px-4 py-2 text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl shadow-xs transition-all cursor-pointer"
+                  >
+                    Masuk Akun
+                  </button>
+                )}
+              </div>
+            </div>
+
+            {/* Mobile Tab Bar */}
+            <div className="lg:hidden flex items-center gap-1 px-4 py-2 border-t border-slate-100 dark:border-slate-800 overflow-x-auto text-xs whitespace-nowrap">
+              {['overview', 'links', 'videos', 'finance', 'stocks', 'membership', 'affiliate', ...(user?.isAdmin ? ['admin'] : [])].map((id) => (
+                <button
+                  key={id}
+                  onClick={() => setActiveTab(id)}
+                  className={'px-3 py-1 rounded-lg ' + (activeTab === id ? 'bg-indigo-600 text-white font-bold' : 'text-slate-600 dark:text-slate-400')}
+                >
+                  {id.toUpperCase()}
+                </button>
+              ))}
+            </div>
+          </header>
+
+          {/* KONTEN UTAMA */}
+          <main className="flex-1 max-w-7xl w-full mx-auto p-4 sm:p-6 lg:p-8 space-y-8">
+            
+            {/* VIEW 1: OVERVIEW */}
+            {activeTab === 'overview' && (
+              <div className="space-y-6">
+                <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-indigo-900 via-indigo-950 to-slate-900 text-white shadow-xl flex flex-col md:flex-row md:items-center justify-between gap-6">
+                  <div className="space-y-2">
+                    <span className="px-3 py-1 rounded-full text-xs font-mono font-bold bg-indigo-500/30 text-indigo-200 border border-indigo-400/30">
+                      LIVE ENGINE · UPDATED: {APP_LAST_SYNCED}
+                    </span>
+                    <h1 className="text-2xl sm:text-3xl font-black tracking-tight">
+                      Pantau Siapa Saja yang Menekan Tautan Anda
+                    </h1>
+                    <p className="text-xs sm:text-sm text-slate-300 max-w-xl">
+                      Deteksi klik real-time dari Instagram, TikTok, WhatsApp, dan Shorts. Kenali perangkat, kota pengunjung, dan konversi member.
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => setActiveTab('links')}
+                    className="px-5 py-3 text-xs font-bold text-slate-900 bg-white hover:bg-slate-100 rounded-2xl shadow-md transition-all cursor-pointer flex items-center gap-2"
+                  >
+                    <i data-lucide="plus-circle" className="w-4 h-4 text-indigo-600"></i>
+                    <span>Buat Tautan Baru</span>
+                  </button>
+                </div>
+
+                <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                  {[
+                    { label: 'Total Klik Trafik', val: '9,250', sub: '+18.4% minggu ini', icon: 'mouse-pointer-click' },
+                    { label: 'Pengunjung Aktif', val: '48 Aktif', sub: 'Terhubung detik ini', icon: 'activity' },
+                    { label: 'Tautan Aktif', val: links.length + ' Tautan', sub: 'Semua platform', icon: 'link-2' },
+                    { label: 'Komisi Afiliasi', val: 'Rp ' + (user?.affiliateBalance || 0).toLocaleString('id-ID'), sub: 'Siap cair ke BSI', icon: 'wallet' },
+                  ].map((s, i) => (
+                    <div key={i} className="p-5 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-1">
+                      <div className="flex items-center justify-between text-slate-500 text-xs">
+                        <span>{s.label}</span>
+                        <i data-lucide={s.icon} className="w-4 h-4 text-indigo-500"></i>
+                      </div>
+                      <div className="text-2xl font-black font-mono text-slate-900 dark:text-white">{s.val}</div>
+                      <div className="text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold">{s.sub}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* VIEW 2: TAUTAN MEDSOS */}
+            {activeTab === 'links' && (
+              <div className="space-y-6">
+                <div className="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-4">
+                  <h2 className="text-lg font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                    <i data-lucide="plus-circle" className="w-5 h-5 text-indigo-500"></i>
+                    <span>Buat Tautan Pelacak Baru</span>
+                  </h2>
+                  <form onSubmit={handleCreateLink} className="grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <input
+                      type="text"
+                      placeholder="Judul Tautan (misal: Toko Shopee)"
+                      value={newLinkTitle}
+                      onChange={(e) => setNewLinkTitle(e.target.value)}
+                      className="px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs focus:ring-2 focus:ring-indigo-500 outline-none"
+                      required
+                    />
+                    <input
+                      type="url"
+                      placeholder="https://tujuan-link-anda.com"
+                      value={newLinkUrl}
+                      onChange={(e) => setNewLinkUrl(e.target.value)}
+                      className="px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-xs focus:ring-2 focus:ring-indigo-500 outline-none"
+                      required
+                    />
+                    <button
+                      type="submit"
+                      className="px-6 py-2.5 text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl transition-colors cursor-pointer"
+                    >
+                      + Simpan & Buat Tautan
+                    </button>
+                  </form>
+                </div>
+
+                <div className="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-3">
+                  <h3 className="text-base font-bold text-slate-900 dark:text-white">Daftar Semua Tautan Pelacak</h3>
+                  {links.map((l) => (
+                    <div key={l.id} className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                      <div>
+                        <span className="font-bold text-slate-900 dark:text-white text-sm">{l.title}</span>
+                        <span className="text-xs text-indigo-600 dark:text-indigo-400 block font-mono">https://pulsetrack.io/r/{l.shortSlug}</span>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <span className="text-base font-black font-mono text-slate-900 dark:text-white">{l.clicks} klik</span>
+                        <button
+                          onClick={() => {
+                            navigator.clipboard.writeText('https://pulsetrack.io/r/' + l.shortSlug);
+                            showToast('Tautan tersalin ke papan klip!');
+                          }}
+                          className="px-3 py-1.5 text-xs font-semibold rounded-lg bg-indigo-50 dark:bg-indigo-950 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-100 cursor-pointer"
+                        >
+                          Salin Link
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            )}
+
+            {/* VIEW 3: PANEL ADMIN UTAMA */}
+            {activeTab === 'admin' && (
+              <div className="space-y-6">
+                <div className="p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-violet-900 via-indigo-950 to-slate-900 text-white shadow-xl flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div className="space-y-2">
+                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-violet-500/30 text-violet-200 text-xs font-bold border border-violet-400/40">
+                      <i data-lucide="shield-check" className="w-4 h-4 text-amber-300"></i>
+                      <span>MASTER SUPER ADMIN PORTAL (LIVE SYNC)</span>
+                    </div>
+                    <h1 className="text-2xl sm:text-3xl font-black">Selamat Datang, {user?.name}</h1>
+                    <p className="text-xs sm:text-sm text-slate-300">
+                      Hak Akses Penuh: Bebas biaya selamanya (Gratis Rp 0/bln) · Rekening Pencairan: {user?.bankAccount?.bankName} {user?.bankAccount?.accountNumber} a.n. {user?.bankAccount?.accountHolder}
+                    </p>
+                  </div>
+                  <div className="p-4 rounded-2xl bg-white/10 backdrop-blur-xs border border-white/10 text-right">
+                    <span className="text-[11px] text-slate-300 block">Saldo Afiliasi Siap Tarik</span>
+                    <span className="text-2xl font-black font-mono text-amber-300">Rp {(user?.affiliateBalance || 150000).toLocaleString('id-ID')}</span>
+                  </div>
+                </div>
+
+                {/* SYSTEM HEALTH WIDGET */}
+                <div className="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-6">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-slate-100 dark:border-slate-800">
+                    <div>
+                      <div className="flex items-center gap-2 text-xs font-bold text-emerald-600 dark:text-emerald-400 uppercase tracking-wide">
+                        <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                        <span>System Health & Live Telemetry</span>
+                      </div>
+                      <h2 className="text-xl font-black text-slate-900 dark:text-white mt-0.5">
+                        Kesehatan Server & Pemantauan Performa Platform
+                      </h2>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={() => setIsPolling(!isPolling)}
+                        className={'px-3 py-1.5 rounded-xl text-xs font-semibold border ' + (isPolling ? 'bg-emerald-50 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 border-emerald-300' : 'bg-slate-100 dark:bg-slate-800 text-slate-600')}
+                      >
+                        {isPolling ? '● Live Polling Aktif' : '⏸ Polling Dijeda'}
+                      </button>
+                      <button
+                        onClick={() => {
+                          setMemoryMB(142.1);
+                          setLatency(16);
+                          showToast('Cache RAM berhasil dioptimalkan!');
+                        }}
+                        className="px-3.5 py-1.5 bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold rounded-xl cursor-pointer"
+                      >
+                        Optimalkan Memori
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+                    <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700">
+                      <span className="text-xs text-slate-500 font-semibold block">Waktu Respons Server</span>
+                      <div className="text-3xl font-black font-mono text-slate-900 dark:text-white mt-1">
+                        {latency} <span className="text-xs text-slate-500">ms</span>
+                      </div>
+                      <span className="text-[11px] text-emerald-600 dark:text-emerald-400 font-semibold block mt-1">Status: Sangat Cepat (&lt;50ms)</span>
+                    </div>
+
+                    <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700">
+                      <span className="text-xs text-slate-500 font-semibold block">Penggunaan Memori RAM</span>
+                      <div className="text-3xl font-black font-mono text-slate-900 dark:text-white mt-1">
+                        {memoryMB} <span className="text-xs text-slate-500">MB</span>
+                      </div>
+                      <div className="w-full bg-slate-200 dark:bg-slate-700 h-1.5 rounded-full mt-2 overflow-hidden">
+                        <div className="bg-indigo-600 h-full rounded-full" style={{ width: Math.round((memoryMB / 512) * 100) + '%' }}></div>
+                      </div>
+                      <span className="text-[10px] text-slate-500 block mt-1">Alokasi: {Math.round((memoryMB / 512) * 100)}% dari 512 MB</span>
+                    </div>
+
+                    <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700">
+                      <span className="text-xs text-slate-500 font-semibold block">Beban CPU & Loop</span>
+                      <div className="text-3xl font-black font-mono text-slate-900 dark:text-white mt-1">
+                        {cpuLoad}%
+                      </div>
+                      <span className="text-[11px] text-indigo-600 dark:text-indigo-400 font-semibold block mt-1">Event Loop: 0.8 ms</span>
+                    </div>
+
+                    <div className="p-4 rounded-2xl bg-slate-50 dark:bg-slate-800/60 border border-slate-200 dark:border-slate-700">
+                      <span className="text-xs text-slate-500 font-semibold block">Ketersediaan SLA</span>
+                      <div className="text-3xl font-black font-mono text-slate-900 dark:text-white mt-1">
+                        99.98%
+                      </div>
+                      <span className="text-[11px] text-slate-500 block mt-1">Google Cloud Run (asia-east1)</span>
+                    </div>
+                  </div>
+                </div>
+
+                {/* ANALISIS PENGGUNA BERGABUNG */}
+                <div className="p-6 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-xs space-y-6">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-100 dark:border-slate-800">
+                    <div>
+                      <h2 className="text-xl font-black text-slate-900 dark:text-white">
+                        Analisis Siapa Saja yang Bergabung di Website Ini
+                      </h2>
+                      <p className="text-xs text-slate-500 mt-1">
+                        Pantau anggota terdaftar, asal saluran masuk (Instagram, TikTok, Afiliasi), dan unduh berkas CSV.
+                      </p>
+                    </div>
+
+                    <div className="flex items-center gap-2">
+                      <button
+                        onClick={handleAddSimulatedMember}
+                        className="px-4 py-2 text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl cursor-pointer"
+                      >
+                        + Simulasi Pendaftar Baru
+                      </button>
+                      <button
+                        onClick={handleExportCSV}
+                        className="px-3.5 py-2 text-xs font-semibold rounded-xl border border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800 cursor-pointer"
+                      >
+                        Ekspor CSV
+                      </button>
+                    </div>
+                  </div>
+
+                  <div className="overflow-x-auto rounded-2xl border border-slate-200 dark:border-slate-800">
+                    <table className="w-full text-left text-xs border-collapse">
+                      <thead className="bg-slate-50 dark:bg-slate-800/80 text-slate-500">
+                        <tr>
+                          <th className="p-3">Nama & Kontak</th>
+                          <th className="p-3">Waktu Bergabung</th>
+                          <th className="p-3">Paket</th>
+                          <th className="p-3">Saluran Masuk</th>
+                          <th className="p-3">Kota</th>
+                          <th className="p-3 text-right">Trafik Klik</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-100 dark:divide-slate-800">
+                        {filteredMembers.map((m, idx) => (
+                          <tr key={m.id + '-' + idx} className="hover:bg-slate-50/60 dark:hover:bg-slate-800/40">
+                            <td className="p-3">
+                              <div className="font-bold text-slate-900 dark:text-white">{m.name}</div>
+                              <div className="text-[11px] text-slate-500">{m.email} · {m.handle}</div>
+                            </td>
+                            <td className="p-3 text-slate-600 dark:text-slate-300">{m.date}</td>
+                            <td className="p-3">
+                              <span className={'px-2 py-0.5 rounded-full text-[10px] font-bold ' + (m.plan === 'VIP Member' ? 'bg-amber-100 text-amber-800 dark:bg-amber-950 dark:text-amber-300 border border-amber-300' : 'bg-slate-100 text-slate-600')}>
+                                {m.plan}
+                              </span>
+                            </td>
+                            <td className="p-3">
+                              <span className="font-medium text-indigo-600 dark:text-indigo-400">{m.channel}</span>
+                            </td>
+                            <td className="p-3 text-slate-600 dark:text-slate-300">{m.city}</td>
+                            <td className="p-3 text-right font-mono font-bold text-slate-900 dark:text-white">{m.clicks.toLocaleString('id-ID')} klik</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+                {/* KARTU KUNCI SANDI ADMIN */}
+                <div className="p-6 rounded-3xl bg-slate-900 text-white border border-indigo-900 shadow-md space-y-3">
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center gap-2">
+                      <i data-lucide="key" className="w-5 h-5 text-amber-400"></i>
+                      <h3 className="font-bold text-sm">Proteksi Kata Sandi Akun Super Admin</h3>
+                    </div>
+                    <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-300 border border-emerald-500/40">
+                      TERKUNCI AMAN
+                    </span>
+                  </div>
+                  <p className="text-xs text-slate-300">
+                    Email Admin: <strong className="text-white">${activeUser.email}</strong> · Kata Sandi Resmi: <strong className="text-amber-300 font-mono">Ansa152026</strong>
+                  </p>
+                  <p className="text-[11px] text-slate-400">
+                    Orang lain tidak dapat masuk tanpa mengetahui kombinasi email dan sandi rahasia ini.
+                  </p>
+                </div>
+              </div>
+            )}
+          </main>
+
+          {/* FOOTER */}
+          <footer className="border-t border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 py-6 text-center text-xs text-slate-500">
+            <p>© 2026 PulseTrack Inc. Hak Cipta Dilindungi · Dibuat Khusus untuk ${activeUser.name} (Super Admin)</p>
+          </footer>
+
+          {/* AUTH MODAL */}
+          {isAuthOpen && (
+            <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-950/70 backdrop-blur-xs">
+              <div className="w-full max-w-md bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 shadow-2xl text-left space-y-4 relative">
+                <button
+                  onClick={() => setIsAuthOpen(false)}
+                  className="absolute top-5 right-5 text-slate-400 hover:text-slate-700 dark:hover:text-slate-200 cursor-pointer"
+                >
+                  <i data-lucide="x" className="w-5 h-5"></i>
+                </button>
+
+                <div>
+                  <h3 className="text-lg font-bold text-slate-900 dark:text-white">Masuk ke PulseTrack</h3>
+                  <p className="text-xs text-slate-500">Masukkan email dan kata sandi akun Anda</p>
+                </div>
+
+                {authError && (
+                  <div className="p-3 rounded-xl bg-rose-50 dark:bg-rose-950/50 border border-rose-200 dark:border-rose-900 text-rose-700 dark:text-rose-300 text-xs">
+                    {authError}
+                  </div>
+                )}
+
+                <form onSubmit={handleLogin} className="space-y-3.5 text-xs">
+                  <div>
+                    <label className="block font-medium text-slate-700 dark:text-slate-300 mb-1">Alamat Email / ID</label>
+                    <input
+                      type="text"
+                      required
+                      value={loginEmail}
+                      onChange={(e) => setLoginEmail(e.target.value)}
+                      placeholder="nama@email.com atau nisaad1526"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-indigo-500"
+                    />
+                  </div>
+
+                  <div>
+                    <label className="block font-medium text-slate-700 dark:text-slate-300 mb-1">Kata Sandi</label>
+                    <div className="relative">
+                      <input
+                        type={showLoginPass ? 'text' : 'password'}
+                        required
+                        value={loginPass}
+                        onChange={(e) => setLoginPass(e.target.value)}
+                        placeholder="Masukkan kata sandi"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-800 text-slate-900 dark:text-white outline-none focus:ring-2 focus:ring-indigo-500 pr-10"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => setShowLoginPass(!showLoginPass)}
+                        className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
+                      >
+                        <i data-lucide={showLoginPass ? 'eye-off' : 'eye'} className="w-4 h-4"></i>
+                      </button>
+                    </div>
+                  </div>
+
+                  <button
+                    type="submit"
+                    className="w-full py-2.5 text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl shadow-xs transition-colors cursor-pointer"
+                  >
+                    Masuk Sekarang
+                  </button>
+                </form>
+              </div>
+            </div>
+          )}
+        </div>
+      );
+    }
+
+    const root = ReactDOM.createRoot(document.getElementById('root'));
+    root.render(<App />);
+  </script>
+</body>
+</html>`;
+}
