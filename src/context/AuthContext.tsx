@@ -525,7 +525,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         user,
         isAuthenticated: !!user,
         isMember: !!user,
-        isAdmin: !!(user?.isAdmin || user?.role === 'admin' || user?.email?.toLowerCase() === 'nisaad1526@gmail.com'),
+        isAdmin: !!(user && user.email?.toLowerCase() === 'nisaad1526@gmail.com' && user.isAdmin),
         login,
         register,
         logout,

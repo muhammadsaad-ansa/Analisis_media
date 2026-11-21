@@ -74,7 +74,7 @@ export const Navbar: React.FC<NavbarProps> = ({ onOpenCreateLink, isDarkMode, to
     { id: 'membership', label: 'Mode Member', icon: <Crown className="w-4 h-4 text-amber-500" /> },
     { id: 'affiliate', label: 'Afiliasi Juara', icon: <Share2 className="w-4 h-4 text-emerald-500" />, badge: 'Rp 10rb' },
     { id: 'seo', label: 'SEO & OpenGraph', icon: <Globe className="w-4 h-4 text-violet-500" />, badge: 'OG' },
-    ...(isAdmin ? [{ id: 'admin' as ActiveTab, label: 'Panel Admin', icon: <ShieldCheck className="w-4 h-4 text-violet-500" />, badge: 'VIP' }] : []),
+    ...(isAdmin ? [{ id: 'admin' as ActiveTab, label: 'Panel Owner', icon: <ShieldCheck className="w-4 h-4 text-violet-500" />, badge: 'VIP' }] : []),
   ];
 
   return (

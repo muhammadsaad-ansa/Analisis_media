@@ -34,6 +34,13 @@ export const PaymentModal: React.FC = () => {
   const handleConfirmPayment = (e: React.FormEvent) => {
     e.preventDefault();
     upgradeToMember(selectedMethod, refNumber || `REF-${Date.now()}`);
+    
+    // Automatically open WhatsApp to +62 878-4419-5778 for membership payment confirmation
+    const waText = encodeURIComponent(
+      `Halo Owner Nisa Ad,\n\nSaya telah melakukan konfirmasi pembayaran langganan Member VIP PulseTrack (Rp 60.000):\n\n- Metode Tujuan: ${selectedMethod}\n- Nama Pengirim: ${senderName || 'Member Baru'}\n- No. Referensi: ${refNumber || 'REF-' + Date.now()}\n\nMohon verifikasi aktivasi akun saya. Terima kasih!`
+    );
+    window.open(`https://wa.me/6287844195778?text=${waText}`, '_blank');
+
     setIsSuccess(true);
     setTimeout(() => {
       setIsSuccess(false);

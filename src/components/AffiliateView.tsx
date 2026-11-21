@@ -202,10 +202,17 @@ export const AffiliateView: React.FC = () => {
 
     setIsWithdrawModalOpen(false);
     const isAll = amt === (user?.affiliateBalance || 0);
+    
+    // Automatically open WhatsApp to +62 878-4419-5778 with complete withdrawal payload
+    const waText = encodeURIComponent(
+      `Halo Owner Nisa Ad,\n\nSaya mengajukan pencairan komisi Afiliasi Juara PulseTrack:\n\n- Nama Akun: ${user?.name || accountHolder}\n- Nama Pemilik: ${accountHolder}\n- Nominal Penarikan: Rp ${amt.toLocaleString('id-ID')}\n- Metode Tujuan: ${withdrawMethod}\n- No. Rekening: ${accountNumber}\n- Email: ${user?.email || 'nisaad1526@gmail.com'}\n\nMohon verifikasi dan transfer ke rekening tersebut. Terima kasih!`
+    );
+    window.open(`https://wa.me/6287844195778?text=${waText}`, '_blank');
+
     setNotification(
       isAll 
-        ? `Seluruh saldo komisi (Rp ${amt.toLocaleString('id-ID')}) berhasil ditarik 100% tanpa sisa ke ${withdrawMethod} (${accountNumber})!`
-        : `Permintaan pencairan Rp ${amt.toLocaleString('id-ID')} ke ${withdrawMethod} (${accountNumber}) berhasil diproses!`
+        ? `Seluruh saldo komisi (Rp ${amt.toLocaleString('id-ID')}) berhasil ditarik 100% dan terhubung ke WhatsApp Owner!`
+        : `Permintaan pencairan Rp ${amt.toLocaleString('id-ID')} ke ${withdrawMethod} (${accountNumber}) terkirim ke WhatsApp Owner!`
     );
     setTimeout(() => setNotification(null), 4500);
   };

@@ -41,9 +41,32 @@ export const AdminView: React.FC = () => {
     simulateNewAffiliateReferral, 
     requestWithdrawal, 
     withdrawals, 
-    referrals 
+    referrals,
+    isAdmin 
   } = useAuth();
   const { links, stats, setActiveTab } = useAnalytics();
+
+  if (!isAdmin) {
+    return (
+      <div className="min-h-[60vh] flex items-center justify-center p-4">
+        <div className="bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-8 max-w-md w-full text-center space-y-4 shadow-xl">
+          <div className="w-16 h-16 rounded-2xl bg-rose-50 dark:bg-rose-950/60 flex items-center justify-center text-rose-600 dark:text-rose-400 mx-auto">
+            <Lock className="w-8 h-8" />
+          </div>
+          <h2 className="text-xl font-black text-slate-900 dark:text-white">Akses Dibatasi</h2>
+          <p className="text-xs text-slate-500 dark:text-slate-400">
+            Panel Owner (Super Admin) hanya dapat diakses oleh pemilik akun resmi (Nisa Ad). Pengguna lain tidak memiliki izin akses ke panel ini.
+          </p>
+          <button
+            onClick={() => setActiveTab('overview')}
+            className="w-full py-2.5 px-4 text-xs font-bold text-white bg-indigo-600 hover:bg-indigo-700 rounded-xl transition-colors cursor-pointer"
+          >
+            Kembali ke Dashboard Utama
+          </button>
+        </div>
+      </div>
+    );
+  }
 
   const [isEditingProfile, setIsEditingProfile] = useState(false);
   const [adminName, setAdminName] = useState(user?.name || 'Nisa Ad');
